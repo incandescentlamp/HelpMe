@@ -1,0 +1,51 @@
+﻿
+
+
+
+using System.Text;
+
+namespace HelpMe.Infrastructure.Experience.HttpRemote.Models;
+
+/// <summary>
+///     <see cref="MultipartFormDataContent" /> 条目
+/// </summary>
+internal sealed class MultipartFormDataItem
+{
+    /// <summary>
+    ///     <inheritdoc cref="MultipartFormDataItem" />
+    /// </summary>
+    /// <param name="name">表单名称</param>
+    internal MultipartFormDataItem(string name)
+    {
+        // 空检查
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
+        Name = name;
+    }
+
+    /// <summary>
+    ///     表单名称
+    /// </summary>
+    internal string Name { get; }
+
+    /// <summary>
+    ///     内容类型
+    /// </summary>
+    internal string? ContentType { get; init; }
+
+    /// <summary>
+    ///     内容编码
+    /// </summary>
+    internal Encoding? ContentEncoding { get; init; }
+
+    /// <summary>
+    ///     原始请求内容
+    /// </summary>
+    /// <remarks>此属性值最终将转换为 <see cref="HttpContent" /> 类型实例。</remarks>
+    internal object? RawContent { get; init; }
+
+    /// <summary>
+    ///     文件的名称
+    /// </summary>
+    internal string? FileName { get; init; }
+}

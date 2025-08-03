@@ -1,0 +1,23 @@
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace HelpMe.Infrastructure.Experience.Extensions;
+
+/// <summary>
+///     <see cref="ICollection{T}" /> 拓展类
+/// </summary>
+internal static class ICollectionExtensions
+{
+    /// <summary>
+    ///     判断集合是否为空
+    /// </summary>
+    /// <typeparam name="T">对象类型</typeparam>
+    /// <param name="collection">
+    ///     <see cref="ICollection{T}" />
+    /// </param>
+    /// <returns>
+    ///     <see cref="bool" />
+    /// </returns>
+    internal static bool IsNullOrEmpty<T>([NotNullWhen(false)] this ICollection<T>? collection) =>
+        collection is null
+        || collection.Count == 0;
+}

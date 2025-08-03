@@ -1,0 +1,17 @@
+﻿namespace HelpMe.Infrastructure.Experience.HttpRemote.Converters;
+
+/// <summary>
+///     字节数组内容转换器
+/// </summary>
+public class ByteArrayContentConverter : HttpContentConverterBase<byte[]>
+{
+    /// <inheritdoc />
+    public override byte[]? Read(HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default) =>
+        httpResponseMessage.Content.ReadAsByteArrayAsync(cancellationToken).GetAwaiter().GetResult();
+
+    /// <inheritdoc />
+    public override async Task<byte[]?> ReadAsync(HttpResponseMessage httpResponseMessage,
+        CancellationToken cancellationToken = default) =>
+        await httpResponseMessage.Content.ReadAsByteArrayAsync(cancellationToken);
+}

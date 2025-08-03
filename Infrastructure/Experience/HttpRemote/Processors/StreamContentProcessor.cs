@@ -1,0 +1,42 @@
+﻿
+
+
+
+using System.Net.Http.Headers;
+using System.Text;
+
+namespace HelpMe.Infrastructure.Experience.HttpRemote.Processors;
+
+/// <summary>
+///     流内容处理器
+/// </summary>
+public class StreamContentProcessor : HttpContentProcessorBase
+{
+    /// <inheritdoc />
+    public override bool CanProcess(object? rawContent, string contentType) =>
+        rawContent is StreamContent or Stream;
+
+    /// <inheritdoc />
+    public override HttpContent? Process(object? rawContent, string contentType, Encoding? encoding)
+    {
+        // 尝试解析 HttpContent 类型
+        if (TryProcess(rawContent, contentType, encoding, out var httpContent))
+        {
+            return httpContent;
+        }
+
+        // 检查是否是流类型
+        if (rawContent is Stream stream)
+        {
+            // 初始化 StreamContent 实例
+            var streamContent = new StreamContent(stream);
+            streamContent.Headers.ContentType =
+                new MediaTypeHeaderValue(contentType) { CharSet = encoding?.BodyName };
+
+            return streamContent;
+        }
+
+        throw new InvalidOperationException(
+            $"Expected a stream, but received an object of type `{rawContent.GetType()}`.");
+    }
+}
